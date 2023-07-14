@@ -1,6 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
+import { Participant } from "../../components/Participant";
+
 import {
   styles,
   eventName,
@@ -31,6 +33,10 @@ export const Home = () => {
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
+
+      <Participant />
+      <Participant />
+      <Participant />
     </View>
   );
 };
