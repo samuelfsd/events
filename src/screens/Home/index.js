@@ -1,4 +1,5 @@
-import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
+
 import {
   View,
   Text,
@@ -7,7 +8,6 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
-import { useState } from "react";
 
 import { Participant } from "../../components/Participant";
 
