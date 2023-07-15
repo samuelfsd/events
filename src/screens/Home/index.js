@@ -1,5 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+} from "react-native";
+import { useState } from "react";
 
 import { Participant } from "../../components/Participant";
 
@@ -14,8 +22,16 @@ import {
 } from "./styles";
 
 export const Home = () => {
+  const [participants, setParticipants] = useState([]);
+  const [participantName, setParticipantName] = useState("");
+
   const handleParticipantAdd = () => {
-    alert("Adicionando participante");
+    setParticipants([participantName, ...participants]);
+    setParticipantName("");
+  };
+
+  const handleRemoveParticipant = (participantName) => {
+    alert(`Remover ${participantName}`);
   };
 
   return (
@@ -28,15 +44,33 @@ export const Home = () => {
           style={styles.input}
           placeholder="Nome do participante?"
           placeholderTextColor="#6b6b6b"
+          defaultValue={participantName}
+          onChangeText={(participantName) =>
+            setParticipantName(participantName)
+          }
         />
         <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
 
-      <Participant />
-      <Participant />
-      <Participant />
+      <FlatList
+        data={participants}
+        keyExtractor={(participantName) => participantName}
+        renderItem={({ item: participantName }) => (
+          <Participant
+            key={participantName}
+            name={participantName}
+            onRemove={() => handleRemoveParticipant(participantName)}
+          />
+        )}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <Text style={styles.listEmptyText}>
+            Nenhum participante cadastrado
+          </Text>
+        )}
+      />
     </View>
   );
 };
