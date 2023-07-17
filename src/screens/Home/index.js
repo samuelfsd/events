@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import Toast from "react-native-toast-message";
+
 import {
   View,
   Text,
@@ -26,12 +28,40 @@ export const Home = () => {
   const [participantName, setParticipantName] = useState("");
 
   const handleParticipantAdd = () => {
-    setParticipants([participantName, ...participants]);
+    if (participants.includes(participantName)) {
+      Toast.show({
+        type: "error",
+        text1: "Participante já cadastrado",
+      });
+      return;
+    }
+
+    setParticipants([...participants, participantName]);
     setParticipantName("");
+    Toast.show({
+      type: "success",
+      text1: "Participante adicionado com sucesso",
+    });
   };
 
   const handleRemoveParticipant = (participantName) => {
-    alert(`Remover ${participantName}`);
+    if (!participants.includes(participantName)) {
+      Toast.show({
+        type: "error",
+        text1: "Não existe participante com esse nome",
+      });
+      return;
+    }
+    const participantsFiltered = participants.filter(
+      (name) => name !== participantName
+    );
+
+    setParticipants(participantsFiltered);
+
+    Toast.show({
+      type: "success",
+      text1: "Participante removido com sucesso",
+    });
   };
 
   return (
